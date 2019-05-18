@@ -23,6 +23,8 @@ class Server {
     this.app.use(cors());
     this.app.use(helmet());
     this.app.use(compression());
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: false }));
     const db = await mongoose.connect(this.dbUrl, {
       useNewUrlParser: true,
       useCreateIndex: true,
