@@ -38,8 +38,9 @@ class Server {
   routes() {
     console.log("init routes");
     this.app.use("/api/todo", todoRoutes.getApis());
-    this.app.use((req, res) => {
-      res.send("hello world");
+    this.app.use((req, res, next) => {
+      const error = new Error("not found");
+      res.status(404).json(error.message);
     });
   }
   start() {
