@@ -36,12 +36,26 @@ class TodoRoutes {
 
   todoUpdate = async (req: Request, res: Response) => {
     let { id } = req.body;
-    await Todo.findByIdAndUpdate(id, req.body);
-    res.json(req.body);
+    await Todo.findByIdAndUpdate(id, req.body, (err, doc) => {
+      if (err)
+        res.json({
+          message: "failed",
+          err
+        });
+      else res.json(doc);
+    });
   };
 
-  todoDelete = (req: Request, res: Response) => {
-    res.json(req.body);
+  todoDelete = async (req: Request, res: Response) => {
+    let { id } = req.body;
+    await Todo.findByIdAndDelete(id, (err, doc) => {
+      if (err)
+        res.json({
+          message: "failed",
+          err
+        });
+      else res.json(doc);
+    });
   };
 
   todoAll = async (req: Request, res: Response) => {
