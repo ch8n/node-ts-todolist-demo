@@ -34,7 +34,9 @@ class TodoRoutes {
     }
   };
 
-  todoUpdate = (req: Request, res: Response) => {
+  todoUpdate = async (req: Request, res: Response) => {
+    let { id } = req.body;
+    await Todo.findByIdAndUpdate(id, req.body);
     res.json(req.body);
   };
 
@@ -46,11 +48,17 @@ class TodoRoutes {
     let todos = await Todo.find();
     res.json(todos);
   };
+  todoOfId = async (req: Request, res: Response) => {
+    let todoId: string = req.params.id;
+    let todos = await Todo.findById(todoId);
+    res.json(todos);
+  };
 
   routes() {
     console.log("Todo routes initalized");
     this.router.get("/", this.todoHome);
     this.router.get("/all", this.todoAll);
+    this.router.get("/:id", this.todoOfId);
     this.router.post("/create", this.todoCreate);
     this.router.put("/update", this.todoUpdate);
     this.router.delete("/delete", this.todoDelete);
